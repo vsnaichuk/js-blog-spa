@@ -1,0 +1,22 @@
+{
+  "name": "js-native-blog",
+  "version": "1.0.0",
+  "description": "js native blog",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VolodumurSN/JS_native_blog.git"
+  },
+  "keywords": [
+    "js", "native", "blog"
+  ],
+  "author": "Volodumur Snaichuk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VolodumurSN/JS_native_blog/issues"
+  },
+  "homepage": "https://github.com/VolodumurSN/JS_native_blog#readme"
+}

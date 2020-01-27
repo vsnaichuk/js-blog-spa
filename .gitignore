@@ -1,0 +1,8 @@
+.*
+!.gitattributes
+!.gitignore
+!.eslintrc
+!.babelrc
+
+/node_modules/
+/dist/
