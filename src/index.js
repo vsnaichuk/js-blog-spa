@@ -1,6 +1,6 @@
 import './css/index.css'
-import { HeaderComponent } from "./components/header.component"
-import { NavigationComponent } from "./components/header.component"
+import { HeaderComponent } from './components/header.component'
+import { NavigationComponent } from './components/navigation.component'
 
 new HeaderComponent('header')
 
