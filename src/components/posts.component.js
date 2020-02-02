@@ -8,6 +8,10 @@ export class PostsComponent extends Component {
         this.loader = loader
     }
 
+    init() {
+        this.$el.addEventListener('click', buttonHandler.bind(this))
+    }
+
     async onShow() {
         this.loader.show()
         
@@ -15,7 +19,7 @@ export class PostsComponent extends Component {
         const posts = TransformService.fbObjectToArray(fbData)
         
         const html = posts.map(post => renderPost(post))
-        
+
         this.loader.hide()
         this.$el.insertAdjacentHTML('afterbegin', html.join(' '))
     }
@@ -30,7 +34,9 @@ function renderPost(post) {
         ? '<li class="tag tag-blue tag-rounded">Новина</li>'
         : '<li class="tag tag-rounded">Замітка</li>'
 
-    const button = '<button class="button-primary button-round button-small button-shadow">Зберегти</button>'
+    const button = (JSON.parse(localStorage.getItem('favorites')) || []).includes(post.id)
+        ? `<button class="button-danger button-round button-small button-shadow" data-id="${post.id}">Видалити</button>`
+        : `<button class="button-primary button-round button-small button-shadow" data-id="${post.id}">Зберегти</button>`
 
     return `
         <div class="panel">
@@ -51,4 +57,33 @@ function renderPost(post) {
             </div>
         </div>
     `
+}
+
+function buttonHandler(event) {
+    const $el = event.target
+    const id = $el.dataset.id
+
+    if (id) {
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || []
+
+        if (favorites.includes(id)) {
+            //delete element from Local Storage
+            $el.textContent = 'Зберегти'
+
+            $el.classList.add('button-primary')
+            $el.classList.remove('button-danger')
+
+            favorites = favorites.filter(fid => fid !== id)
+        } else {
+            //add element to Local Storage
+            $el.textContent = 'Видалити'
+
+            $el.classList.remove('button-primary')
+            $el.classList.add('button-danger')
+
+            favorites.push(id)
+        }
+
+        localStorage.setItem('favorites', JSON.stringify(favorites))
+    }
 }
