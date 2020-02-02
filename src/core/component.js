@@ -6,13 +6,9 @@ export class Component {
 
     init() {} //Lifecycle method(hook)
 
-    onShow() {
-        
-    }
+    onShow() {}
 
-    onHide() {
-
-    }
+    onHide() {}
 
     hide() {
         this.$el.classList.add('hide')
