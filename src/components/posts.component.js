@@ -34,9 +34,9 @@ function renderPost(post) {
         ? '<li class="tag tag-blue tag-rounded">Новина</li>'
         : '<li class="tag tag-rounded">Замітка</li>'
 
-    const button = (JSON.parse(localStorage.getItem('favorites')) || []).includes(post.id)
-        ? `<button class="button-danger button-round button-small button-shadow" data-id="${post.id}">Видалити</button>`
-        : `<button class="button-primary button-round button-small button-shadow" data-id="${post.id}">Зберегти</button>`
+    const button = (JSON.parse(localStorage.getItem('favorites')) || []).some(fid => fid.id === post.id)
+        ? `<button class="button-danger button-round button-small button-shadow" data-id="${post.id}" data-title="${post.title}">Видалити</button>`
+        : `<button class="button-primary button-round button-small button-shadow" data-id="${post.id}" data-title="${post.title}">Зберегти</button>`
 
     return `
         <div class="panel">
@@ -62,18 +62,21 @@ function renderPost(post) {
 function buttonHandler(event) {
     const $el = event.target
     const id = $el.dataset.id
+    const title = $el.dataset.title
 
     if (id) {
         let favorites = JSON.parse(localStorage.getItem('favorites')) || []
 
-        if (favorites.includes(id)) {
+        if (favorites.some(fid => fid.id === id)) {
             //delete element from Local Storage
             $el.textContent = 'Зберегти'
 
             $el.classList.add('button-primary')
             $el.classList.remove('button-danger')
 
-            favorites = favorites.filter(fid => fid !== id)
+            favorites = favorites.filter(fid => {
+                return fid.id !== id
+            })
         } else {
             //add element to Local Storage
             $el.textContent = 'Видалити'
@@ -81,7 +84,7 @@ function buttonHandler(event) {
             $el.classList.remove('button-primary')
             $el.classList.add('button-danger')
 
-            favorites.push(id)
+            favorites.push({id, title})
         }
 
         localStorage.setItem('favorites', JSON.stringify(favorites))
