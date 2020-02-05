@@ -1,6 +1,7 @@
 import { Component } from '../core/component'
 import { apiService } from '../services/api.service'
 import { TransformService } from '../services/transform.service'
+import { renderPost } from '../templates/post.template'
 
 export class PostsComponent extends Component {
     constructor(id, {loader}) {
@@ -18,7 +19,7 @@ export class PostsComponent extends Component {
         const fbData = await apiService.fetchPost()
         const posts = TransformService.fbObjectToArray(fbData)
         
-        const html = posts.map(post => renderPost(post))
+        const html = posts.map(post => renderPost(post, {withBtn: true}))
 
         this.loader.hide()
         this.$el.insertAdjacentHTML('afterbegin', html.join(' '))
@@ -27,36 +28,6 @@ export class PostsComponent extends Component {
     onHide() {
         this.$el.innerHTML = ''
     }
-}
-
-function renderPost(post) {
-    const tag = post.type === 'news'
-        ? '<li class="tag tag-blue tag-rounded">Новина</li>'
-        : '<li class="tag tag-rounded">Замітка</li>'
-
-    const button = (JSON.parse(localStorage.getItem('favorites')) || []).some(fid => fid.id === post.id)
-        ? `<button class="button-danger button-round button-small button-shadow" data-id="${post.id}" data-title="${post.title}">Видалити</button>`
-        : `<button class="button-primary button-round button-small button-shadow" data-id="${post.id}" data-title="${post.title}">Зберегти</button>`
-
-    return `
-        <div class="panel">
-            <div class="panel-head">
-                <p class="panel-title">${post.title}</p>
-                <ul class="tags">
-                    ${tag}
-                </ul>
-            </div>
-            
-            <div class="panel-body">
-                <p class="multi-line">${post.fulltext}</p>
-            </div>
-            
-            <div class="panel-footer w-panel-footer">
-                <small>${post.date}</small>
-                ${button}
-            </div>
-        </div>
-    `
 }
 
 function buttonHandler(event) {
