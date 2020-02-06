@@ -3,6 +3,9 @@
 !.gitignore
 !.eslintrc
 !.babelrc
+!.firebaserc
 
 /node_modules/
 /dist/
+
+firebase-debug.log

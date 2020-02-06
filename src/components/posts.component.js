@@ -38,7 +38,7 @@ function buttonHandler(event) {
     if (id) {
         let favorites = JSON.parse(localStorage.getItem('favorites')) || []
 
-        if (favorites.some(fid => fid.id === id)) {
+        if (favorites.some(fid => fid.id === id)) {  //favorites.find(fid => fid.id === id)
             //delete element from Local Storage
             $el.textContent = 'Зберегти'
 

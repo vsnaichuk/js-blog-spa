@@ -3,7 +3,7 @@ export function renderPost(post, optionBtn = {}) {
         ? '<li class="tag tag-blue tag-rounded">Новина</li>'
         : '<li class="tag tag-rounded">Замітка</li>'
 
-    const button = (JSON.parse(localStorage.getItem('favorites')) || []).some(fid => fid.id === post.id)
+    const button = (JSON.parse(localStorage.getItem('favorites')) || []).some(fid => fid.id === post.id)  //.find(fid => fid.id === id)
         ? `<button class="button-danger button-round button-small button-shadow" data-id="${post.id}" data-title="${post.title}">Видалити</button>`
         : `<button class="button-primary button-round button-small button-shadow" data-id="${post.id}" data-title="${post.title}">Зберегти</button>`
 
